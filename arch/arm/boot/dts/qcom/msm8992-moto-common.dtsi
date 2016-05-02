@@ -63,7 +63,7 @@
 				105574 //1248000 kHz
 				139040>; //1440000 kHz
 		};
-		CPU4: cpu@100 {
+		CPU4: cpu@4 {
 			current = < 79343 //384000 kHz
 				99359 //480000 kHz
 				129500 //633600 kHz
@@ -78,7 +78,7 @@
 				466758 //1689600 kHz
 				538767>; //1824000 kHz
 		};
-		CPU5: cpu@101 {
+		CPU5: cpu@5 {
 			current = < 79343 //384000 kHz
 				99359 //480000 kHz
 				129500 //633600 kHz
@@ -137,7 +137,10 @@
 			linux,reserve-contiguous-region;
 			linux,reserve-region;
 			linux,remove-completely;
-			reg = <0x0 0xaf000000 0x0 0x80000>;
+			/* Hardboot: reserve 1MB of space
+			 * before ramoops address of 0xaf000000
+			 */
+			reg = <0x0 0xaef00000 0x0 0x180000>;
 			label = "ramoops_mem";
 		};
 
