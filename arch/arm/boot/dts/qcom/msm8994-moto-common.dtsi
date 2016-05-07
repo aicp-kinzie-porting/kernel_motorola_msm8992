@@ -171,6 +171,14 @@
 			label = "wdog_cpuctx_mem";
 		};
 
+		ramoops_mem: ramoops_mem_region {
+			linux,reserve-contiguous-region;
+			linux,reserve-region;
+			linux,remove-completely;
+			reg = <0x0 0xaf000000 0x0 0x80000>;
+			label = "ramoops_mem";
+		};
+
 		mmns_mem: mmns_region@0 {
 			linux,reserve-contiguous-region;
 			linux,reserve-region;
@@ -961,11 +969,9 @@
 		android,ramoops-record-size = <0x3F800>;
 		android,ramoops-annotate-size = <0x800>;
 		android,ramoops-dump-oops = <0x1>;
-		android,ramoops-hole {
-			compatible = "qcom,msm-mem-hole";
-			qcom,memblock-reserve = <0xaf000000 0x80000>;
-		};
-	};
+
+		linux,contiguous-region = <&ramoops_mem>;
+    };
 
 	qcom,ion {
 		qcom,ion-heap@30 { /* MMNS HEAP */
