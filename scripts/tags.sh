@@ -11,6 +11,12 @@ if [ "$KBUILD_VERBOSE" = "1" ]; then
 	set -x
 fi
 
+if [$(uname) = "Darwin"]; then
+    XARGS="xargs -I"
+else
+    XARGS="xargs -r"
+fi
+
 # This is a duplicate of RCS_FIND_IGNORE without escaped '()'
 ignore="( -name SCCS -o -name BitKeeper -o -name .svn -o \
           -name CVS  -o -name .pc       -o -name .hg  -o \
@@ -211,7 +217,7 @@ exuberant()
 	--langdef=kconfig --language-force=kconfig              \
 	--regex-kconfig='/^[[:blank:]]*(menu|)config[[:blank:]]+([[:alnum:]_]+)/CONFIG_\2/'
 
-	all_defconfigs | xargs -r $1 -a                         \
+	all_defconfigs | $XARGS $1 -a                         \
 	--langdef=dotconfig --language-force=dotconfig          \
 	--regex-dotconfig='/^#?[[:blank:]]*(CONFIG_[[:alnum:]_]+)/\1/'
 }
@@ -254,7 +260,7 @@ emacs()
 	all_kconfigs | xargs $1 -a                              \
 	--regex='/^[ \t]*\(\(menu\)*config\)[ \t]+\([a-zA-Z0-9_]+\)/CONFIG_\3/'
 
-	all_defconfigs | xargs -r $1 -a                         \
+	all_defconfigs | $XARGS $1 -a                         \
 	--regex='/^#?[ \t]?\(CONFIG_[a-zA-Z0-9_]+\)/\1/'
 }
 
